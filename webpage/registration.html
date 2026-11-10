@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        #registrationForm {
+            background-color: lightblue;
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 9px;
+            margin-top: 5px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2563a6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            display: block;
+            margin-top: -8px;
+            margin-bottom: 10px;
+        }
+
+        #successMessage {
+            color: green;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="registrationForm" novalidate>
+
+        <h2>Student Registration</h2>
+
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" placeholder="Enter your name">
+        <span id="nameError" class="error"></span>
+
+        <label for="usn">USN:</label>
+        <input type="text" id="usn" placeholder="Enter your USN">
+        <span id="usnError" class="error"></span>
+
+        <label for="email">Email Address:</label>
+        <input type="text" id="email" placeholder="Enter your email">
+        <span id="emailError" class="error"></span>
+
+        <label for="department">Department:</label>
+        <select id="department">
+            <option value="">Select Department</option>
+            <option value="CSE">Computer Science</option>
+            <option value="AIML">AI and Machine Learning</option>
+            <option value="ECE">Electronics and Communication</option>
+            <option value="ISE">Information Science</option>
+        </select>
+        <span id="departmentError" class="error"></span>
+
+        <button type="submit" id="registerButton">
+            Register
+        </button>
+
+        <p id="successMessage"></p>
+
+    </form>
+
+    <script>
+        document.getElementById("registrationForm")
+            .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            // Clear previous error messages
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("usnError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("departmentError").innerText = "";
+            document.getElementById("successMessage").innerText = "";
+
+            let valid = true;
+
+            let name = document.getElementById("fullName").value.trim();
+            let usn = document.getElementById("usn").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let department = document.getElementById("department").value;
+
+            // Validate full name
+            if (name === "") {
+                document.getElementById("nameError").innerText =
+                    "Name is required.";
+                valid = false;
+            }
+
+            // Validate USN
+            if (usn === "") {
+                document.getElementById("usnError").innerText =
+                    "USN is required.";
+                valid = false;
+            }
+
+            // Validate email
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email === "") {
+                document.getElementById("emailError").innerText =
+                    "Email is required.";
+                valid = false;
+            } else if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText =
+                    "Please enter a valid email address.";
+                valid = false;
+            }
+
+            // Validate department
+            if (department === "") {
+                document.getElementById("departmentError").innerText =
+                    "Please select a department.";
+                valid = false;
+            }
+
+            // Display success message
+            if (valid) {
+                document.getElementById("successMessage").innerText =
+                    "Registration Successful!";
+            }
+
+        });
+    </script>
+
+</body>
+</html>
