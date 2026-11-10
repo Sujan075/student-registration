@@ -1,6 +1,7 @@
+
 package com.example.student_registration;
 
-import java.net.URL;
+import java.io.File;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,18 +35,20 @@ public class StudentRegistrationTest {
 
         driver.manage().window().maximize();
 
-        // Load HTML file from Maven resources
-        URL resource = getClass()
-                .getClassLoader()
-                .getResource("webpage/registration.html");
+        // Load HTML file from project root
+        File htmlFile = new File("webpage/registration.html")
+                .getAbsoluteFile();
 
-        if (resource == null) {
+        if (!htmlFile.isFile()) {
             throw new IllegalArgumentException(
-                "registration.html not found!"
+                    "registration.html not found at: "
+                    + htmlFile.getAbsolutePath()
             );
         }
 
-        driver.get(resource.toExternalForm());
+        String page = htmlFile.toURI().toString();
+
+        driver.get(page);
 
         System.out.println("Registration page opened successfully!");
     }
@@ -75,7 +78,8 @@ public class StudentRegistrationTest {
         driver.findElement(By.id("registerButton")).click();
 
         String success = driver.findElement(
-                By.id("successMessage")).getText();
+                By.id("successMessage")
+        ).getText();
 
         Assert.assertEquals(
                 success,
@@ -92,20 +96,25 @@ public class StudentRegistrationTest {
         driver.findElement(By.id("registerButton")).click();
 
         String nameError = driver.findElement(
-                By.id("nameError")).getText();
+                By.id("nameError")
+        ).getText();
 
         String usnError = driver.findElement(
-                By.id("usnError")).getText();
+                By.id("usnError")
+        ).getText();
 
         String emailError = driver.findElement(
-                By.id("emailError")).getText();
+                By.id("emailError")
+        ).getText();
 
         String departmentError = driver.findElement(
-                By.id("departmentError")).getText();
+                By.id("departmentError")
+        ).getText();
 
         Assert.assertEquals(nameError, "Name is required.");
         Assert.assertEquals(usnError, "USN is required.");
         Assert.assertEquals(emailError, "Email is required.");
+
         Assert.assertEquals(
                 departmentError,
                 "Please select a department."
@@ -133,7 +142,8 @@ public class StudentRegistrationTest {
         driver.findElement(By.id("registerButton")).click();
 
         String emailError = driver.findElement(
-                By.id("emailError")).getText();
+                By.id("emailError")
+        ).getText();
 
         Assert.assertEquals(
                 emailError,
@@ -152,7 +162,8 @@ public class StudentRegistrationTest {
         driver.findElement(By.id("registerButton")).click();
 
         WebElement message = driver.findElement(
-                By.id("successMessage"));
+                By.id("successMessage")
+        );
 
         Assert.assertTrue(message.isDisplayed());
 
@@ -169,8 +180,8 @@ public class StudentRegistrationTest {
     public void formBackgroundColorTest() {
 
         String backgroundColor = driver.findElement(
-                By.id("registrationForm"))
-                .getCssValue("background-color");
+                By.id("registrationForm")
+        ).getCssValue("background-color");
 
         System.out.println(
                 "Form Background Color: " + backgroundColor
